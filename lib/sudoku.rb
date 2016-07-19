@@ -36,11 +36,17 @@ module Sudoku
       DIGITS - row(i / 9) - column(i % 9) - box(i)
     end
 
+    def all_choices
+      each_with_object({}).with_index do |(n, acc), i|
+        n.zero? && (acc[i] = choices(i)) && acc[i].empty? && (return false)
+      end.sort_by { |_i, v| v.size }
+    end
+
     def backtrack(puzzle)
       puzzle.iterations += 1
-      puzzle.each_with_object({}).with_index { |(n, acc), i| 
-        n.zero? and acc[i] = puzzle.choices(i) and acc[i].empty? and return false
-      }.sort_by { |_i, v| v.size }.each do |i, sorted|
+      choices = puzzle.all_choices
+      return false unless choices
+      choices.each do |i, sorted|
         sorted.each do |c|
           puzzle[i] = c
           return puzzle if backtrack(puzzle)
@@ -57,10 +63,10 @@ module Sudoku
     end
 
     def to_s
-      each_with_object([]).with_index do | (n,acc), i|
-        acc << "\n#{'-' * 29}" if [27,54].include?(i)
+      each_with_object([]).with_index do |(n, acc), i|
+        acc << "\n#{'-' * 29}" if [27, 54].include?(i)
         if i % 9 == 0
-          acc << "\n" 
+          acc << "\n"
         elsif i % 3 == 0
           acc << '|'
         end
