@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "sudoku"
+
+require 'ruby-prof'
+result = RubyProf.profile do
+  Sudoku.solve('
+    000|000|012
+    000|000|003
+    002|300|400
+    -----------
+    001|800|005
+    060|070|800
+    000|009|000
+    -----------
+    008|500|000
+    900|040|500
+    470|006|000')
+end
+
+puts "Generating profile results..."
+printer = RubyProf::GraphHtmlPrinter.new(result)
+file = "profile-#{Time.now.to_i}.html"
+File.open(file, 'w'){|f| printer.print(f)}
+`open #{file}`
