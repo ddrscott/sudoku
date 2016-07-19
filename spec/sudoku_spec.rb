@@ -30,20 +30,6 @@ describe Sudoku do
   }
 
   it 'solves' do
-    Sudoku.solve(easy)
-  end
-
-  xit 'profile' do
-    require 'ruby-prof'
-    result = RubyProf.profile do
-      solved = puzzle.solve
-      solved.render
-    end
-
-    puts "Generating profile results..."
-    printer = RubyProf::GraphHtmlPrinter.new(result)
-    file = "profile-#{Time.now.to_i}.html"
-    File.open(file, 'w'){|f| printer.print(f)}
-    `open #{file}`
+    Sudoku.solve(hard)
   end
 end
