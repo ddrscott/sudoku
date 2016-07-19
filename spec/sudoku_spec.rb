@@ -14,8 +14,9 @@ describe Sudoku do
     900|040|500
     470|006|000'
   }
+
   let(:easy){'
-    040|805|200
+    040|805|20.
     020|040|050
     500|000|004
     -----------
@@ -32,4 +33,17 @@ describe Sudoku do
     Sudoku.solve(easy)
   end
 
+  xit 'profile' do
+    require 'ruby-prof'
+    result = RubyProf.profile do
+      solved = puzzle.solve
+      solved.render
+    end
+
+    puts "Generating profile results..."
+    printer = RubyProf::GraphHtmlPrinter.new(result)
+    file = "profile-#{Time.now.to_i}.html"
+    File.open(file, 'w'){|f| printer.print(f)}
+    `open #{file}`
+  end
 end
