@@ -57,17 +57,19 @@ module Sudoku
     end
 
     def to_s
-      result = []
-      9.times do |i|
-        r = row(i)
-        result << [r[0, 3].join(' '), r[3, 3].join(' '), r[6, 3].join(' ')].join(' | ').tr('0', '.')
-        result << '-' * 21 if i == 2 || i == 5
-      end
-      result.join("\n")
+      each_with_object([]).with_index do | (n,acc), i|
+        acc << "\n#{'-' * 29}" if [27,54].include?(i)
+        if i % 9 == 0
+          acc << "\n" 
+        elsif i % 3 == 0
+          acc << '|'
+        end
+        acc << " #{n} "
+      end.join
     end
 
     def render
-      puts "#{self}\n iterations: #{iterations}\n\n"
+      puts "#{self}\n\n#{"iterations: #{iterations}\n\n" if iterations}"
     end
   end
 
