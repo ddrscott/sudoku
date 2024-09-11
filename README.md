@@ -4,5 +4,5 @@ Solver using backtracking prioritizing fewer choices first.
 
 ## Usage
 ```ruby
-./bin/sudoku spec/hard.txt
+ruby ./lib/sudoku.rb spec/hard.txt
 ```

@@ -79,3 +79,7 @@ module Sudoku
     end
   end
 end
+
+if $PROGRAM_NAME == __FILE__
+  Sudoku.solve(open(ARGV[0]).read)
+end
